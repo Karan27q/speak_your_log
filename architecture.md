@@ -1,5 +1,9 @@
 # Speak Your Log — Architecture
 
+## Current Implementation
+
+The running app uses browser speech recognition for English and Tamil, displays the recognized transcript for review, and saves confirmed logs to browser `localStorage`. It has no text-to-speech, LLM follow-up, Proof posting, or backend API. The legacy sections below describe an earlier proposed design and are not implementation requirements; see `README.md` for current behavior.
+
 ## Recommended Stack
 
 Frontend:

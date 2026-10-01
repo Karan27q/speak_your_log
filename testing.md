@@ -1,204 +1,58 @@
 # Speak Your Log — Testing Plan
 
-## Goal
+## Test 1 — English capture and save
 
-Test the real user experience rather than only checking whether the code compiles.
+1. Open the app in Chrome or Edge and allow microphone access.
+2. Select English, start listening, and speak a short work log.
+3. Finish and review the transcript, then save it.
+4. Refresh the page.
 
-The reviewer has approximately 2 minutes.
+Expected: the reviewed transcript is saved in the saved-log list and remains after refresh.
 
-The application must work quickly without installation or login.
+## Test 2 — Tamil capture
 
-## Test 1 — Basic English
+1. Select Tamil and start listening.
+2. Speak naturally in Tamil, finish, and review the transcript.
+3. Save and refresh.
 
-Steps:
+Expected: recognized Tamil text is preserved as returned by the browser. No translation or rewriting occurs.
 
-1. Open production URL.
-2. Select English.
-3. Click Start.
-4. Allow microphone.
-5. Answer the opening question.
-6. Wait for follow-up.
-7. Answer follow-up.
-8. Confirm.
-9. Check posted log.
+## Test 3 — Mixed Tamil and English / Tanglish
 
-Expected:
+Speak a mixed sentence, such as: `I tried building a YOLO model but accuracy சரியாக வரவில்லை.` Also test spoken Tamil if Tanglish (Latin-letter) output is needed.
 
-* Voice input works.
-* Follow-up is relevant.
-* Transcript is preserved.
-* Log is posted only after confirmation.
+Expected: inspect the actual browser output. Tamil script, mixed script, or recognition errors are possible; Tanglish output is not guaranteed.
 
-## Test 2 — Tamil
+## Test 4 — Pause and recognition recovery
 
-Steps:
+Speak a phrase, pause for several seconds, and continue before the two-minute timer ends.
 
-1. Select Tamil.
-2. Start session.
-3. Speak naturally in Tamil.
-4. Answer follow-up.
-5. Confirm.
+Expected: recognition recovers if the browser ends a recognition segment; the transcript does not duplicate finalized segments.
 
-Expected:
+## Test 5 — Microphone and unsupported browser
 
-* Tamil recognition works.
-* Tamil words are not translated automatically.
-* Tamil transcript remains intact.
+Deny microphone access, then test a browser without Web Speech API support.
 
-## Test 3 — Mixed Tamil + English
+Expected: a clear error appears, the UI remains usable, and retry is available.
 
-Example:
+## Test 6 — Local persistence and deletion
 
-"I tried building a YOLO model but accuracy சரியாக வரவில்லை."
+Save two logs, refresh, then delete one.
 
-Expected:
+Expected: both logs survive refresh; deleting one removes only that entry and it remains deleted after refresh. Clearing browser data removes local logs.
 
-The transcript preserves the mixed-language content.
+## Test 7 — Timer and review
 
-No translation.
+Start a session and let the timer reach zero.
 
-No rewriting.
+Expected: recognition stops and the app opens transcript review without losing finalized text.
 
-## Test 4 — Pause During Speech
+## Test 8 — Mobile
 
-Speak:
+On a mobile browser, verify microphone permission, language selection, timer, transcript wrapping, save, and delete controls.
 
-"I tried building..."
+## Verification record
 
-Pause for several seconds.
-
-Continue:
-
-"...then I got an error."
-
-Expected:
-
-The application should avoid unnecessarily losing the second part.
-
-If browser recognition ends, the application should recover while the session remains active.
-
-## Test 5 — Recognition Error
-
-Deny microphone permission.
-
-Expected:
-
-A clear error message.
-
-No broken UI.
-
-A retry option.
-
-## Test 6 — LLM Failure
-
-Temporarily make the follow-up API fail.
-
-Expected:
-
-* Original transcript remains.
-* User is informed.
-* No fake question is generated.
-* Retry is possible.
-
-## Test 7 — Follow-up Quality
-
-Test at least 5 different responses.
-
-For each response ask:
-
-1. Is the follow-up related to something the student actually said?
-2. Is it only one question?
-3. Does it avoid repeating the initial question?
-4. Is it understandable when spoken aloud?
-
-Record the results.
-
-## Test 8 — Exact Words
-
-Say a sentence containing:
-
-* grammar mistakes
-* technical terminology
-* Tamil words
-* English words
-* numbers
-
-Verify that the system does not intentionally rewrite it.
-
-## Test 9 — Confirmation
-
-Test:
-
-```text
-yes
-yes, post it
-no
-maybe
-okay
-silence
-```
-
-Expected:
-
-Only clear confirmation results in posting.
-
-## Test 10 — Timer
-
-Start a session and verify:
-
-```text
-02:00 → 01:59 → ... → 00:00
-```
-
-At zero:
-
-* recognition stops
-* timer stops
-* no restart occurs
-* application transitions safely
-
-## Test 11 — Refresh
-
-Refresh before posting.
-
-Expected behavior should be intentional and documented.
-
-Do not claim unsaved transcript persistence unless it is implemented.
-
-## Test 12 — Mobile
-
-Test on a mobile browser if possible.
-
-Verify:
-
-* Start button is accessible.
-* Timer is readable.
-* Transcript does not overflow.
-* Buttons are easy to tap.
-
-## Final Human Test
-
-Have at least 3 people use the production URL.
-
-Record:
-
-```text
-TESTED
-3 people used the application.
-
-WORKED
-...
-
-BROKE
-...
-
-FIXED
-...
-
-NEXT
-...
-```
-
-Do not fabricate testing results.
+Do not record a human test as passed unless it was actually performed. Track tested devices, language, recognition output, failures, and follow-up work.
 
 Only record results from actual tests.

@@ -1,5 +1,9 @@
 # Speak Your Log — Implementation Instructions
 
+## Current Implementation
+
+The app now listens directly, lets the user review the transcript, and saves confirmed logs to browser `localStorage`. It does not speak prompts or call an LLM/Proof API. The phases below are historical implementation notes and must not be used to reintroduce those flows; see `README.md` for the current behavior.
+
 ## Agent Objective
 
 Implement the application completely, incrementally, and test each milestone before moving to the next.
